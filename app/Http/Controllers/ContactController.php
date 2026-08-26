@@ -6,6 +6,8 @@ use App\Models\Category;
 use App\Models\Tag;
 use Illuminate\View\View;
 use App\Http\Requests\StoreContactRequest;
+use App\Models\Contact;
+use Illuminate\Http\RedirectResponse;
 
 class ContactController extends Controller
 {
@@ -34,4 +36,30 @@ class ContactController extends Controller
             'tags' => $tags,
         ]);
     }
+
+      /**
+     * お問い合わせ内容を保存し、サンクスページへリダイレクトする
+     */
+    public function store(StoreContactRequest $request): RedirectResponse
+    {
+        $validated = $request->validated();
+ 
+        $contact = Contact::create($validated);
+ 
+        if (! empty($validated['tag_ids'])) {
+            $contact->tags()->attach($validated['tag_ids']);
+        }
+ 
+        return redirect()->route('contact.thanks');
+    }
+ 
+    /**
+     * サンクスページを表示する
+     */
+    public function thanks(): View
+    {
+        return view('contact.thanks');
+    }
+
+
 }
