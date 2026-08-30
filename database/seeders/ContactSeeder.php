@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\Category;
 use App\Models\Contact;
 use App\Models\Tag;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Faker\Factory;
 use Illuminate\Database\Seeder;
 
 class ContactSeeder extends Seeder
@@ -15,7 +15,7 @@ class ContactSeeder extends Seeder
      */
     public function run(): void
     {
-        $faker = \Faker\Factory::create('ja_JP');
+        $faker = Factory::create('ja_JP');
 
         $categoryIds = Category::pluck('id')->all();
         $tagIds = Tag::pluck('id')->all();

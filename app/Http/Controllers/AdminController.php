@@ -15,13 +15,13 @@ class AdminController extends Controller
      * 管理画面（お問い合わせ一覧・検索・ページネーション）を表示する
      */
     public function index(IndexContactRequest $request): View
-{
-    $contacts = (new Contact())->getContactsForAdminIndex($request->validated());
-    $categories = Category::all();
-    $tags = Tag::all();
+    {
+        $contacts = (new Contact)->getContactsForAdminIndex($request->validated());
+        $categories = Category::all();
+        $tags = Tag::all();
 
-    return view('admin.index', compact('contacts', 'categories', 'tags'));
-}
+        return view('admin.index', compact('contacts', 'categories', 'tags'));
+    }
 
     /**
      * お問い合わせ詳細ページを表示する
