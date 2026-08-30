@@ -58,10 +58,10 @@ class StoreTagRequestTest extends TestCase
      */
     public function test_duplicate_name_is_rejected(): void
     {
-        Tag::create(['name' => '質問']);
+        $tag = Tag::factory()->create();
 
         $validator = Validator::make(
-            ['name' => '質問'],
+            ['name' => $tag->name],
             (new StoreTagRequest())->rules()
         );
 

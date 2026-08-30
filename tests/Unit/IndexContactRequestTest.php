@@ -17,7 +17,7 @@ class IndexContactRequestTest extends TestCase
      */
     public function test_valid_filters_pass_validation(): void
     {
-        $category = Category::create(['content' => 'テストカテゴリ']);
+        $category = Category::factory()->create();
 
         $data = [
             'keyword' => '山田',
