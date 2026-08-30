@@ -18,8 +18,8 @@ class StoreContactRequestTest extends TestCase
      */
     public function test_valid_data_with_tags_passes_validation(): void
     {
-        $category = Category::create(['content' => 'テストカテゴリ']);
-        $tag = Tag::create(['name' => 'テストタグ']);
+        $category = Category::factory()->create();
+        $tag = Tag::factory()->create();
 
         $data = [
             'first_name' => '太郎',
@@ -58,7 +58,7 @@ class StoreContactRequestTest extends TestCase
      */
     public function test_invalid_tel_format_is_rejected(): void
     {
-        $category = Category::create(['content' => 'テストカテゴリ']);
+        $category = Category::factory()->create();
 
         $baseData = [
             'first_name' => '太郎',

@@ -32,11 +32,11 @@ class UpdateTagRequestTest extends TestCase
      */
     public function test_keeping_own_current_name_passes_validation(): void
     {
-        $tag = Tag::create(['name' => '質問']);
+        $tag = Tag::factory()->create();
 
         $request = $this->makeRequest($tag);
 
-        $validator = Validator::make(['name' => '質問'], $request->rules());
+        $validator = Validator::make(['name' => $tag->name], $request->rules());
 
         $this->assertFalse($validator->fails());
     }
@@ -46,12 +46,12 @@ class UpdateTagRequestTest extends TestCase
      */
     public function test_changing_to_another_tags_name_is_rejected(): void
     {
-        $tag = Tag::create(['name' => '質問']);
-        Tag::create(['name' => '要望']);
+        $tag = Tag::factory()->create();
+        $otherTag = Tag::factory()->create();
 
         $request = $this->makeRequest($tag);
 
-        $validator = Validator::make(['name' => '要望'], $request->rules());
+        $validator = Validator::make(['name' => $otherTag->name], $request->rules());
 
         $this->assertTrue($validator->fails());
         $this->assertArrayHasKey('name', $validator->errors()->toArray());
@@ -62,7 +62,7 @@ class UpdateTagRequestTest extends TestCase
      */
     public function test_empty_name_is_rejected(): void
     {
-        $tag = Tag::create(['name' => '質問']);
+        $tag = Tag::factory()->create();
 
         $request = $this->makeRequest($tag);
 
