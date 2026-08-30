@@ -21,7 +21,7 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->timestamps();
 
-            $table->unique(['contact_id','tag_id']);
+            $table->unique(['contact_id', 'tag_id']);
         });
     }
 
