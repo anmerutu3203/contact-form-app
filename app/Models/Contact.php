@@ -37,10 +37,14 @@ class Contact extends Model
     {
         return $this->with(['category', 'tags'])
             ->when($validated['keyword'] ?? null, function ($query, $keyword) {
-                $query->where(function ($q) use ($keyword) {
-                    $q->where('first_name', 'like', "%{$keyword}%")
-                        ->orWhere('last_name', 'like', "%{$keyword}%")
-                        ->orWhere('email', 'like', "%{$keyword}%");
+                // LIKE構文上のワイルドカード文字（\ % _）をエスケープし、
+                // ユーザー入力をリテラル文字として扱う
+                $escapedKeyword = addcslashes($keyword, '\\%_');
+
+                $query->where(function ($q) use ($escapedKeyword) {
+                    $q->where('first_name', 'like', "%{$escapedKeyword}%")
+                        ->orWhere('last_name', 'like', "%{$escapedKeyword}%")
+                        ->orWhere('email', 'like', "%{$escapedKeyword}%");
                 });
             })
             ->when(
