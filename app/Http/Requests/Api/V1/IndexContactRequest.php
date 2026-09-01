@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests\Api\V1;
 
+use App\Http\Requests\Api\V1\Concerns\FormatsJsonValidationErrors;
 use Illuminate\Foundation\Http\FormRequest;
 
 class IndexContactRequest extends FormRequest
 {
+    use FormatsJsonValidationErrors;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -42,18 +45,5 @@ class IndexContactRequest extends FormRequest
             'gender.in' => '性別の値が不正です',
             'category_id.exists' => '選択されたカテゴリーが存在しません',
         ];
-    }
-
-    /**
-     * バリデーション失敗時、422 JSONで日本語エラーメッセージを返す
-     */
-    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
-    {
-        throw new \Illuminate\Http\Exceptions\HttpResponseException(
-            response()->json([
-                'message' => $validator->errors()->first(),
-                'errors' => $validator->errors(),
-            ], 422)
-        );
     }
 }

@@ -2,12 +2,13 @@
 
 namespace App\Http\Requests\Api\V1;
 
-use Illuminate\Contracts\Validation\Validator as ValidatorContract;
+use App\Http\Requests\Api\V1\Concerns\FormatsJsonValidationErrors;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreContactRequest extends FormRequest
 {
+    use FormatsJsonValidationErrors;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -61,18 +62,5 @@ class StoreContactRequest extends FormRequest
             'detail.max' => 'お問い合わせ内容は120文字以内で入力してください',
             'tag_ids.*.exists' => '選択されたタグが存在しません',
         ];
-    }
-
-    /**
-     * バリデーション失敗時、422 JSONで日本語エラーメッセージを返す
-     */
-    protected function failedValidation(ValidatorContract $validator)
-    {
-        throw new HttpResponseException(
-            response()->json([
-                'message' => $validator->errors()->first(),
-                'errors' => $validator->errors(),
-            ], 422)
-        );
     }
 }
